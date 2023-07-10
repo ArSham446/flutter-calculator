@@ -7,12 +7,26 @@ class CalculationsProvider extends ChangeNotifier {
   String _result = '';
   String _history = '';
 
-  get firstNumber => _firstNumber;
-  get secondNumber => _secondNumber;
+  String  get firstNumber => _firstNumber;
+  String get secondNumber => _secondNumber;
   get operator => _operator;
   get result => _result;
   get history => _history;
   get list => _list;
+
+  set firstNumber(String value) {
+    _firstNumber = value;
+    notifyListeners();
+  }
+  set secondNumber(String value) {
+    _secondNumber = value;
+    notifyListeners();
+  }
+  set operator(value) {
+    _operator = value;
+    notifyListeners();
+  }
+
 
   List<dynamic> _list = [];
 
@@ -182,22 +196,37 @@ class CalculationsProvider extends ChangeNotifier {
       case '+':
         _result = (double.parse(_firstNumber) + double.parse(_secondNumber))
             .toString();
+            if(_result.endsWith('.0')){
+              _result = _result.substring(0, _result.length - 2);
+            }
         break;
       case '-':
         _result = (double.parse(_firstNumber) - double.parse(_secondNumber))
             .toString();
+            if(_result.endsWith('.0')){
+              _result = _result.substring(0, _result.length - 2);
+            }
         break;
       case '*':
         _result = (double.parse(_firstNumber) * double.parse(_secondNumber))
             .toString();
+            if(_result.endsWith('.0')){
+              _result = _result.substring(0, _result.length - 2);
+            }
         break;
       case '/':
         _result = (double.parse(_firstNumber) / double.parse(_secondNumber))
             .toString();
+            if(_result.endsWith('.0')){
+              _result = _result.substring(0, _result.length - 2);
+            }
         break;
       case '%':
         _result = (double.parse(_firstNumber) % double.parse(_secondNumber))
             .toString();
+            if(_result.endsWith('.0')){
+              _result = _result.substring(0, _result.length - 2);
+            }
         break;
       default:
         _result = '0';
