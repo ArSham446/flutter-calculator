@@ -4,63 +4,74 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('CalculationsProvider', () {
-    test('Addition', () {
+    test('addition', () {
       final provider = CalculationsProvider();
-      provider.firstNumber = '2';
-      provider.secondNumber = '3';
-      provider.operator = '+';
-      provider.calculations();
+      provider.addDigit('2');
+      provider.addOperator('+');
+      provider.addDigit('3');
+      provider.calculate();
       expect(provider.result, '5');
     });
 
-    test('Subtraction', () {
+    test('subtraction', () {
       final provider = CalculationsProvider();
-      provider.firstNumber = '5';
-      provider.secondNumber = '3';
-      provider.operator = '-';
-      provider.calculations();
+      provider.addDigit('5');
+      provider.addOperator('-');
+      provider.addDigit('3');
+      provider.calculate();
       expect(provider.result, '2');
     });
 
-    test('Multiplication', () {
+    test('multiplication', () {
       final provider = CalculationsProvider();
-      provider.firstNumber = '2';
-      provider.secondNumber = '3';
-      provider.operator = '*';
-      provider.calculations();
+      provider.addDigit('2');
+      provider.addOperator('*');
+      provider.addDigit('3');
+      provider.calculate();
       expect(provider.result, '6');
     });
 
-    test('Division', () {
+    test('division', () {
       final provider = CalculationsProvider();
-      provider.firstNumber = '6';
-      provider.secondNumber = '3';
-      provider.operator = '/';
-      provider.calculations();
+      provider.addDigit('6');
+      provider.addOperator('/');
+      provider.addDigit('3');
+      provider.calculate();
       expect(provider.result, '2');
     });
 
-    test('Modulus', () {
+    test('modulus', () {
       final provider = CalculationsProvider();
-      provider.firstNumber = '5';
-      provider.secondNumber = '3';
-      provider.operator = '%';
-      provider.calculations();
-      expect(provider.result, '2');
+      provider.addDigit('7');
+      provider.addOperator('%');
+      provider.addDigit('3');
+      provider.calculate();
+      expect(provider.result, '1');
     });
 
-    test('Clear', () {
+    test('clear', () {
       final provider = CalculationsProvider();
-      provider.firstNumber = '5';
-      provider.secondNumber = '3';
-      provider.operator = '+';
-      provider.calculations();
+      provider.addDigit('2');
+      provider.addOperator('+');
+      provider.addDigit('3');
       provider.clear();
       expect(provider.firstNumber, '');
       expect(provider.secondNumber, '');
       expect(provider.operator, '');
       expect(provider.result, '');
       expect(provider.history, '');
+    });
+
+    test('deleteLastDigit', () {
+      final provider = CalculationsProvider();
+      provider.addDigit('2');
+      provider.addDigit('3');
+      provider.deleteLastDigit();
+      expect(provider.firstNumber, '2');
+      expect(provider.secondNumber, '');
+      expect(provider.operator, '');
+      expect(provider.result, '');
+      expect(provider.history, '2');
     });
   });
 }
