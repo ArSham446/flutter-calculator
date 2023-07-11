@@ -85,7 +85,9 @@ class HomePage extends StatelessWidget {
                                 Column(
                               children: [
                                 Text(
-                                  calculationsProvider.history,
+                                  calculationsProvider.firstNumber +
+                                      calculationsProvider.operator +
+                                      calculationsProvider.secondNumber,
                                   style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),

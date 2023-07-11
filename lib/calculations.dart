@@ -49,20 +49,33 @@ class CalculationsProvider extends ChangeNotifier {
   }
 
   void deleteLastDigit() {
-
-
-    if (_history.isNotEmpty || _result.isNotEmpty || _operator.isNotEmpty || _firstNumber.isNotEmpty || _secondNumber.isNotEmpty) {
-      if (_result.isNotEmpty) {
-        _result = _result.substring(0, _result.length - 1);
-      }
-       else if (_history.isNotEmpty) {
-        _history = _history.substring(0, _history.length - 1);
+    if (_operator.isNotEmpty ||
+        _firstNumber.isNotEmpty ||
+        _secondNumber.isNotEmpty) {
+      if (_secondNumber.isNotEmpty) {
+        _secondNumber = _secondNumber.substring(0, _secondNumber.length - 1);
+        if (_secondNumber.isNotEmpty) {
+          calculations();
+        }
+        if(_secondNumber.isEmpty){
+          _result='';
+        }
+      } else if (_operator.isNotEmpty) {
+        _operator = '';
+        
+      } else if (_firstNumber.isNotEmpty) {
+        _firstNumber = _firstNumber.substring(0, _firstNumber.length - 1);
       }
     }
     notifyListeners();
   }
 
   void addOperator(String operator) {
+    if (_result.isNotEmpty) {
+      _firstNumber = _result;
+      _result = '';
+      _secondNumber = '';
+    }
     _operator = operator;
     _history += operator;
     notifyListeners();
@@ -70,7 +83,7 @@ class CalculationsProvider extends ChangeNotifier {
 
   void calculate() {
     calculations();
-    _history = _result;
+    _firstNumber = _result;
     notifyListeners();
   }
 
