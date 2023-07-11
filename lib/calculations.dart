@@ -6,15 +6,9 @@ class CalculationsProvider extends ChangeNotifier {
   String _operator = '';
   String _result = '';
   String _history = '';
-
-  String get firstNumber => _firstNumber;
-  String get secondNumber => _secondNumber;
-  String get operator => _operator;
-  String get result => _result;
-  String get history => _history;
-  get list => _list;
   List<Function> _list = [];
 
+  // Constructor to initialize the list of button functions
   CalculationsProvider() {
     _list = [
       clear,
@@ -39,6 +33,15 @@ class CalculationsProvider extends ChangeNotifier {
     ];
   }
 
+  // Getters for the private variables
+  String get firstNumber => _firstNumber;
+  String get secondNumber => _secondNumber;
+  String get operator => _operator;
+  String get result => _result;
+  String get history => _history;
+  get list => _list;
+
+  // Function to clear all variables and notify listeners
   void clear() {
     _firstNumber = '';
     _secondNumber = '';
@@ -48,6 +51,7 @@ class CalculationsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Function to delete the last digit entered and notify listeners
   void deleteLastDigit() {
     if (_operator.isNotEmpty ||
         _firstNumber.isNotEmpty ||
@@ -70,6 +74,7 @@ class CalculationsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Function to add an operator and notify listeners
   void addOperator(String operator) {
     if (_result.isNotEmpty) {
       _firstNumber = _result;
@@ -81,12 +86,14 @@ class CalculationsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Function to perform the calculation and notify listeners
   void calculate() {
     calculations();
     _firstNumber = _result;
     notifyListeners();
   }
 
+  // Function to add a digit and notify listeners
   void addDigit(String digit) {
     if (_operator.isNotEmpty) {
       _secondNumber += digit;
@@ -98,6 +105,7 @@ class CalculationsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Function to perform the calculation based on the operator
   void calculations() {
     switch (_operator) {
       case '+':

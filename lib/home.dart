@@ -7,8 +7,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Check if the device is in portrait or landscape mode
     final isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
+    // Select the appropriate button list based on the device orientation
     final buttonList = isPortrait ? _portraitButtonList : _landscapeButtonList;
 
     return Scaffold(
@@ -26,6 +28,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  // Function to build the layout for portrait mode
   Widget _buildPortraitLayout(List<String> buttonList) {
     return Column(
       children: [
@@ -47,6 +50,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  // Function to build the layout for landscape mode
   Widget _buildLandscapeLayout(List<String> buttonList) {
     return Row(
       children: [
@@ -68,6 +72,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  // Function to build the display area
   Widget _buildDisplay() {
     return Container(
       height: 160,
@@ -89,6 +94,7 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
+            // Display the calculation history and result
             Consumer<CalculationsProvider>(
               builder: (context, calculationsProvider, child) => Column(
                 children: [
@@ -114,6 +120,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  // Function to build the calculator buttons
   Widget _buildButton(String label, List<String> buttonList) {
     return Padding(
       padding: const EdgeInsets.all(5.0),
@@ -153,6 +160,7 @@ class HomePage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
+            // Call the appropriate function when a button is pressed
             onPressed: calculationsProvider.list[buttonList.indexOf(label)],
             child: Text(
               label,
@@ -164,6 +172,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  // List of buttons for portrait mode
   static const _portraitButtonList = [
     'AC',
     'C',
@@ -186,6 +195,7 @@ class HomePage extends StatelessWidget {
     '=',
   ];
 
+  // List of buttons for landscape mode
   static const _landscapeButtonList = [
     'AC',
     '1',
