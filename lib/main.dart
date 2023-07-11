@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => CalculationsProvider())
       ],
       child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Calculator',
         home: HomePage(),
       ),

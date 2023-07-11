@@ -8,31 +8,37 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Check if the device is in portrait or landscape mode
-    final isPortrait =
-        MediaQuery.of(context).orientation == Orientation.portrait;
-    // Select the appropriate button list based on the device orientation
-    final buttonList = isPortrait ? _portraitButtonList : _landscapeButtonList;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Calculator'),
-        centerTitle: true,
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(20),
-        color: Colors.grey[300],
-        child: isPortrait
-            ? _buildPortraitLayout(buttonList)
-            : _buildLandscapeLayout(buttonList),
-      ),
-    );
+    return Builder(builder: (context) {
+      final isPortrait =
+          MediaQuery.of(context).orientation == Orientation.portrait;
+      // Select the appropriate button list based on the device orientation
+      final buttonList =
+          isPortrait ? _portraitButtonList : _landscapeButtonList;
+
+      return OrientationBuilder(builder: (context, orientation) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Calculator'),
+            centerTitle: true,
+          ),
+          body: Container(
+            padding: const EdgeInsets.all(20),
+            color: Colors.grey[300],
+            child: isPortrait
+                ? _buildPortraitLayout(context, buttonList)
+                : _buildLandscapeLayout(context, buttonList),
+          ),
+        );
+      });
+    });
   }
 
   // Function to build the layout for portrait mode
-  Widget _buildPortraitLayout(List<String> buttonList) {
+  Widget _buildPortraitLayout(BuildContext context, List<String> buttonList) {
     return Column(
       children: [
-        _buildDisplay(),
+        _buildDisplay(context),
         const SizedBox(height: 20),
         Expanded(
           child: SingleChildScrollView(
@@ -51,10 +57,10 @@ class HomePage extends StatelessWidget {
   }
 
   // Function to build the layout for landscape mode
-  Widget _buildLandscapeLayout(List<String> buttonList) {
+  Widget _buildLandscapeLayout(BuildContext context, List<String> buttonList) {
     return Row(
       children: [
-        _buildDisplay(),
+        _buildDisplay(context),
         const SizedBox(width: 30),
         Expanded(
           child: SingleChildScrollView(
@@ -73,10 +79,12 @@ class HomePage extends StatelessWidget {
   }
 
   // Function to build the display area
-  Widget _buildDisplay() {
+  Widget _buildDisplay(BuildContext context) {
+    final isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
     return Container(
-      height: 160,
-      width: double.infinity,
+      height: isPortrait ? 160 : double.infinity,
+      width: isPortrait ? double.infinity : 160,
       decoration: BoxDecoration(
         color: Colors.blue[100],
         borderRadius: BorderRadius.circular(10),
