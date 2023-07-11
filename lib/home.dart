@@ -7,31 +7,25 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+    // Select the appropriate button list based on the device orientation
+    final buttonList = isPortrait ? _portraitButtonList : _landscapeButtonList;
     // Check if the device is in portrait or landscape mode
 
-    return Builder(builder: (context) {
-      final isPortrait =
-          MediaQuery.of(context).orientation == Orientation.portrait;
-      // Select the appropriate button list based on the device orientation
-      final buttonList =
-          isPortrait ? _portraitButtonList : _landscapeButtonList;
-
-      return OrientationBuilder(builder: (context, orientation) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Calculator'),
-            centerTitle: true,
-          ),
-          body: Container(
-            padding: const EdgeInsets.all(20),
-            color: Colors.grey[300],
-            child: isPortrait
-                ? _buildPortraitLayout(context, buttonList)
-                : _buildLandscapeLayout(context, buttonList),
-          ),
-        );
-      });
-    });
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Calculator'),
+        centerTitle: true,
+      ),
+      body: Container(
+        padding: const EdgeInsets.all(20),
+        color: Colors.grey[300],
+        child: isPortrait
+            ? _buildPortraitLayout(context, buttonList)
+            : _buildLandscapeLayout(context, buttonList),
+      ),
+    );
   }
 
   // Function to build the layout for portrait mode
@@ -47,7 +41,7 @@ class HomePage extends StatelessWidget {
               direction: Axis.horizontal,
               children: List.generate(
                 buttonList.length,
-                (index) => _buildButton(buttonList[index], buttonList),
+                (index) => _buildButton(context, buttonList[index], buttonList),
               ),
             ),
           ),
@@ -69,7 +63,7 @@ class HomePage extends StatelessWidget {
               direction: Axis.horizontal,
               children: List.generate(
                 buttonList.length,
-                (index) => _buildButton(buttonList[index], buttonList),
+                (index) => _buildButton(context, buttonList[index], buttonList),
               ),
             ),
           ),
@@ -84,7 +78,7 @@ class HomePage extends StatelessWidget {
         MediaQuery.of(context).orientation == Orientation.portrait;
     return Container(
       height: isPortrait ? 160 : double.infinity,
-      width: isPortrait ? double.infinity : 160,
+      width: isPortrait ? double.infinity : 250,
       decoration: BoxDecoration(
         color: Colors.blue[100],
         borderRadius: BorderRadius.circular(10),
@@ -129,12 +123,21 @@ class HomePage extends StatelessWidget {
   }
 
   // Function to build the calculator buttons
-  Widget _buildButton(String label, List<String> buttonList) {
+  Widget _buildButton(
+      BuildContext context, String label, List<String> buttonList) {
+    final isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Container(
-        width: label == '=' ? 149 : 70,
-        height: 70,
+        width: isPortrait
+            ? label == '='
+                ? 149
+                : 70
+            : label == '='
+                ? 344
+                : 49,
+        height: isPortrait ? 70 : 49,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
@@ -169,7 +172,9 @@ class HomePage extends StatelessWidget {
               ),
             ),
             // Call the appropriate function when a button is pressed
-            onPressed: calculationsProvider.list[buttonList.indexOf(label)],
+            onPressed: isPortrait
+                ? calculationsProvider.list[buttonList.indexOf(label)]
+                : calculationsProvider.lisT[buttonList.indexOf(label)],
             child: Text(
               label,
               style: const TextStyle(fontSize: 20),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class CalculationsProvider extends ChangeNotifier {
   String _firstNumber = '';
   String _secondNumber = '';
@@ -7,6 +8,8 @@ class CalculationsProvider extends ChangeNotifier {
   String _result = '';
   String _history = '';
   List<Function> _list = [];
+  List<Function> _lisT = [];
+  
 
   // Constructor to initialize the list of button functions
   CalculationsProvider() {
@@ -31,6 +34,28 @@ class CalculationsProvider extends ChangeNotifier {
       () => addDigit('.'),
       calculate,
     ];
+   _lisT = [
+  clear,
+  () => addDigit('1'),
+  () => addDigit('2'),
+  () => addDigit('3'),
+  () => addOperator('*'),
+  () => addOperator('/'),
+  () => addDigit('4'),
+  () => addDigit('5'),
+  () => addDigit('6'),
+  () => addDigit('7'),
+  () => addOperator('+'),
+  () => addOperator('-'),
+  () => addDigit('8'),
+  () => addDigit('9'),
+  () => addDigit('0'),
+  () => addDigit('.'),
+  () => addOperator('%'),
+  deleteLastDigit,
+  calculate,
+];
+    
   }
 
   // Getters for the private variables
@@ -40,6 +65,7 @@ class CalculationsProvider extends ChangeNotifier {
   String get result => _result;
   String get history => _history;
   get list => _list;
+  get lisT => _lisT;
 
   // Function to clear all variables and notify listeners
   void clear() {
