@@ -15,7 +15,12 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calculator'),
+        title: const Text(
+          'Calculate Me',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+        ),
+        backgroundColor: Colors.blue[100],
+        foregroundColor: Colors.black,
         centerTitle: true,
       ),
       body: Container(
@@ -52,10 +57,12 @@ class HomePage extends StatelessWidget {
 
   // Function to build the layout for landscape mode
   Widget _buildLandscapeLayout(BuildContext context, List<String> buttonList) {
+    double width = MediaQuery.of(context).size.width;
+
     return Row(
       children: [
         _buildDisplay(context),
-        const SizedBox(width: 30),
+        SizedBox(width: width * .05),
         Expanded(
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
@@ -74,11 +81,21 @@ class HomePage extends StatelessWidget {
 
   // Function to build the display area
   Widget _buildDisplay(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
+    double height = MediaQuery.of(context).size.height;
+
     final isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
     return Container(
-      height: isPortrait ? 160 : double.infinity,
-      width: isPortrait ? double.infinity : 250,
+      height: isPortrait
+          ? height > 718
+              ? height < 800
+                  ? height * .29
+                  : height * .355
+              : height * .28
+          : double.infinity,
+      width: isPortrait ? double.infinity : width * .3,
       decoration: BoxDecoration(
         color: Colors.blue[100],
         borderRadius: BorderRadius.circular(10),
@@ -96,7 +113,6 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            // Display the calculation history and result
             Consumer<CalculationsProvider>(
               builder: (context, calculationsProvider, child) => Column(
                 children: [
@@ -125,6 +141,8 @@ class HomePage extends StatelessWidget {
   // Function to build the calculator buttons
   Widget _buildButton(
       BuildContext context, String label, List<String> buttonList) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     final isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
     return Padding(
@@ -132,12 +150,18 @@ class HomePage extends StatelessWidget {
       child: Container(
         width: isPortrait
             ? label == '='
-                ? 149
-                : 70
+                ? width * .4
+                : width * .19
             : label == '='
-                ? 344
-                : 49,
-        height: isPortrait ? 70 : 49,
+                ? width > 740
+                    ? width > 1024
+                        ? width * .577
+                        : width * .539
+                    : width * .55
+                : width > 1080
+                    ? width * .09
+                    : width * .08,
+        height: isPortrait ? height * .09 : height * .135,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
