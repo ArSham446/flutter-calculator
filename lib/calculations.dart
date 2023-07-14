@@ -2,12 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:decimal/decimal.dart';
 
 class CalculationsProvider extends ChangeNotifier {
-   bool decimal = false;
+  bool _isDarkMode = false;
+
+  bool get isDarkMode => _isDarkMode;
+
+  void toggleTheme() {
+    _isDarkMode = !_isDarkMode;
+    notifyListeners();
+  }
+
+  bool decimal = false;
   String _firstNumber = '';
   String _secondNumber = '';
   String _operator = '';
   String _result = '';
-  String _history = '';
+
   List<Function> _list = [];
   List<Function> _lisT = [];
 
@@ -31,7 +40,7 @@ class CalculationsProvider extends ChangeNotifier {
       () => addDigit('3'),
       () => addOperator('+'),
       () => addDigit('0'),
-      () => addDesimal('.'),
+      () => addDecimal('.'),
       calculate,
     ];
     _lisT = [
@@ -50,7 +59,7 @@ class CalculationsProvider extends ChangeNotifier {
       () => addDigit('8'),
       () => addDigit('9'),
       () => addDigit('0'),
-      () => addDesimal('.'),
+      () => addDecimal('.'),
       () => addOperator('%'),
       deleteLastDigit,
       calculate,
@@ -62,7 +71,7 @@ class CalculationsProvider extends ChangeNotifier {
   String get secondNumber => _secondNumber;
   String get operator => _operator;
   String get result => _result;
-  String get history => _history;
+
   get list => _list;
   get lisT => _lisT;
 
@@ -72,7 +81,7 @@ class CalculationsProvider extends ChangeNotifier {
     _secondNumber = '';
     _operator = '';
     _result = '';
-    _history = '';
+
     decimal = false;
     notifyListeners();
   }
@@ -107,8 +116,8 @@ class CalculationsProvider extends ChangeNotifier {
       _secondNumber = '';
     }
     _operator = operator;
-    _history += operator;
-    //  decimal = false;
+
+    decimal = false;
     notifyListeners();
   }
 
@@ -127,11 +136,11 @@ class CalculationsProvider extends ChangeNotifier {
     } else {
       _firstNumber += digit;
     }
-    _history += digit;
+
     notifyListeners();
   }
 
-  void addDesimal(String digit) {
+  void addDecimal(String digit) {
     if (decimal) {
       return;
     }
@@ -162,12 +171,16 @@ class CalculationsProvider extends ChangeNotifier {
             .toString();
         break;
       case '/':
-        Decimal result =
-            (Decimal.parse(_firstNumber) / Decimal.parse(_secondNumber))
-                .toDecimal();
-        _result = result.toString();
-
+        if (_secondNumber != '0') {
+          _result =
+              ((Decimal.parse(_firstNumber) / Decimal.parse(_secondNumber))
+                      .toDouble())
+                  .toString();
+        } else {
+          _result = 'Error: Division by zero';
+        }
         break;
+
       case '%':
         _result = (Decimal.parse(_firstNumber) % Decimal.parse(_secondNumber))
             .toString();

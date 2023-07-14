@@ -62,7 +62,6 @@ void main() {
       expect(provider.secondNumber, '');
       expect(provider.operator, '');
       expect(provider.result, '');
-      expect(provider.history, '');
     });
 
     test('deleteLastDigit', () {
@@ -86,6 +85,5 @@ void main() {
     });
 
     // Add more tests here...
-
   });
 }

@@ -1,5 +1,7 @@
 import 'package:calculator/calculations.dart';
+
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
@@ -15,17 +17,26 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              Provider.of<CalculationsProvider>(context, listen: false)
+                  .toggleTheme();
+            },
+            icon: const Icon(Icons.brightness_4),
+          ),
+        ],
         title: const Text(
           'Calculate Me',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
         ),
-        backgroundColor: Colors.blue[100],
-        foregroundColor: Colors.black,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Colors.white,
         centerTitle: true,
       ),
       body: Container(
         padding: const EdgeInsets.all(20),
-        color: Colors.grey[300],
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: isPortrait
             ? _buildPortraitLayout(context, buttonList)
             : _buildLandscapeLayout(context, buttonList),
@@ -97,7 +108,8 @@ class HomePage extends StatelessWidget {
           : double.infinity,
       width: isPortrait ? double.infinity : width * .3,
       decoration: BoxDecoration(
-        color: Colors.blue[100],
+        color: //myColors.bg300
+            Theme.of(context).colorScheme.background,
         borderRadius: BorderRadius.circular(10),
         boxShadow: const [
           BoxShadow(
@@ -163,7 +175,6 @@ class HomePage extends StatelessWidget {
                     : width * .08,
         height: isPortrait ? height * .09 : height * .135,
         decoration: BoxDecoration(
-          color: Colors.white,
           borderRadius: BorderRadius.circular(20),
           boxShadow: const [
             BoxShadow(
@@ -177,20 +188,22 @@ class HomePage extends StatelessWidget {
           builder: (context, calculationsProvider, child) => ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: label == '='
-                  ? Colors.blue[300]
+                  ? Theme.of(context).colorScheme.secondary
                   : label == 'AC' || label == 'C' || label == '%'
-                      ? Colors.amber[300]
+                      ? Theme.of(context).colorScheme.primaryContainer
                       : label == '/' ||
                               label == '*' ||
                               label == '-' ||
                               label == '+'
-                          ? const Color.fromARGB(255, 4, 241, 151)
-                          : Colors.white,
+                          ? Theme.of(context).colorScheme.onError
+                          : //myColor.bg200,
+                          Theme.of(context).colorScheme.onPrimary,
               foregroundColor: label == 'AC' || label == 'C' || label == '%'
-                  ? Colors.green
+                  ? Colors.white
                   : label == '/' || label == '*' || label == '-' || label == '+'
-                      ? Colors.red
-                      : Colors.black,
+                      ? Colors.white
+                      : //myColor.text200,
+                      Theme.of(context).colorScheme.onError,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
