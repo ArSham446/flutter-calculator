@@ -89,8 +89,8 @@ class HomePage extends StatelessWidget {
         MediaQuery.of(context).orientation == Orientation.portrait;
     return Container(
       height: isPortrait
-          ? height > 718
-              ? height < 800
+          ? height > 720
+              ? height < 800 && height > 730
                   ? height * .29
                   : height * .355
               : height * .28

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:decimal/decimal.dart';
 
 class CalculationsProvider extends ChangeNotifier {
+  // bool decimal = false;
   String _firstNumber = '';
   String _secondNumber = '';
   String _operator = '';
@@ -9,7 +10,6 @@ class CalculationsProvider extends ChangeNotifier {
   String _history = '';
   List<Function> _list = [];
   List<Function> _lisT = [];
-  
 
   // Constructor to initialize the list of button functions
   CalculationsProvider() {
@@ -31,31 +31,30 @@ class CalculationsProvider extends ChangeNotifier {
       () => addDigit('3'),
       () => addOperator('+'),
       () => addDigit('0'),
-      () => addDigit('.'),
+      () => addDesimal('.'),
       calculate,
     ];
-   _lisT = [
-  clear,
-  () => addDigit('1'),
-  () => addDigit('2'),
-  () => addDigit('3'),
-  () => addOperator('*'),
-  () => addOperator('/'),
-  () => addDigit('4'),
-  () => addDigit('5'),
-  () => addDigit('6'),
-  () => addDigit('7'),
-  () => addOperator('+'),
-  () => addOperator('-'),
-  () => addDigit('8'),
-  () => addDigit('9'),
-  () => addDigit('0'),
-  () => addDigit('.'),
-  () => addOperator('%'),
-  deleteLastDigit,
-  calculate,
-];
-    
+    _lisT = [
+      clear,
+      () => addDigit('1'),
+      () => addDigit('2'),
+      () => addDigit('3'),
+      () => addOperator('*'),
+      () => addOperator('/'),
+      () => addDigit('4'),
+      () => addDigit('5'),
+      () => addDigit('6'),
+      () => addDigit('7'),
+      () => addOperator('+'),
+      () => addOperator('-'),
+      () => addDigit('8'),
+      () => addDigit('9'),
+      () => addDigit('0'),
+      () => addDesimal('.'),
+      () => addOperator('%'),
+      deleteLastDigit,
+      calculate,
+    ];
   }
 
   // Getters for the private variables
@@ -74,6 +73,7 @@ class CalculationsProvider extends ChangeNotifier {
     _operator = '';
     _result = '';
     _history = '';
+    //decimal = false;
     notifyListeners();
   }
 
@@ -87,12 +87,11 @@ class CalculationsProvider extends ChangeNotifier {
         if (_secondNumber.isNotEmpty) {
           calculations();
         }
-        if(_secondNumber.isEmpty){
-          _result='';
+        if (_secondNumber.isEmpty) {
+          _result = '';
         }
       } else if (_operator.isNotEmpty) {
         _operator = '';
-        
       } else if (_firstNumber.isNotEmpty) {
         _firstNumber = _firstNumber.substring(0, _firstNumber.length - 1);
       }
@@ -109,6 +108,7 @@ class CalculationsProvider extends ChangeNotifier {
     }
     _operator = operator;
     _history += operator;
+    //  decimal = false;
     notifyListeners();
   }
 
@@ -131,27 +131,45 @@ class CalculationsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void addDesimal(String digit) {
+    // if (decimal) {
+    //   return;
+    // }
+    if (_operator.isNotEmpty) {
+      _secondNumber += digit;
+      //decimal = true;
+    } else {
+      _firstNumber += digit;
+      //decimal = true;
+    }
+
+    notifyListeners();
+  }
+
   // Function to perform the calculation based on the operator
   void calculations() {
     switch (_operator) {
       case '+':
-        _result = (double.parse(_firstNumber) + double.parse(_secondNumber))
+        _result = (Decimal.parse(_firstNumber) + Decimal.parse(_secondNumber))
             .toString();
         break;
       case '-':
-        _result = (double.parse(_firstNumber) - double.parse(_secondNumber))
+        _result = (Decimal.parse(_firstNumber) - Decimal.parse(_secondNumber))
             .toString();
         break;
       case '*':
-        _result = (double.parse(_firstNumber) * double.parse(_secondNumber))
+        _result = (Decimal.parse(_firstNumber) * Decimal.parse(_secondNumber))
             .toString();
         break;
       case '/':
-        _result = (double.parse(_firstNumber) / double.parse(_secondNumber))
-            .toString();
+        Decimal result =
+            (Decimal.parse(_firstNumber) / Decimal.parse(_secondNumber))
+                .toDecimal();
+        _result = result.toString();
+
         break;
       case '%':
-        _result = (double.parse(_firstNumber) % double.parse(_secondNumber))
+        _result = (Decimal.parse(_firstNumber) % Decimal.parse(_secondNumber))
             .toString();
         break;
       default:
