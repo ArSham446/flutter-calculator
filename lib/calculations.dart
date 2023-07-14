@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:decimal/decimal.dart';
 
 class CalculationsProvider extends ChangeNotifier {
-  // bool decimal = false;
+   bool decimal = false;
   String _firstNumber = '';
   String _secondNumber = '';
   String _operator = '';
@@ -73,7 +73,7 @@ class CalculationsProvider extends ChangeNotifier {
     _operator = '';
     _result = '';
     _history = '';
-    //decimal = false;
+    decimal = false;
     notifyListeners();
   }
 
@@ -132,15 +132,15 @@ class CalculationsProvider extends ChangeNotifier {
   }
 
   void addDesimal(String digit) {
-    // if (decimal) {
-    //   return;
-    // }
+    if (decimal) {
+      return;
+    }
     if (_operator.isNotEmpty) {
       _secondNumber += digit;
-      //decimal = true;
+      decimal = true;
     } else {
       _firstNumber += digit;
-      //decimal = true;
+      decimal = true;
     }
 
     notifyListeners();
